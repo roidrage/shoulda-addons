@@ -1,0 +1,15 @@
+Like RSpec's profiling of the 10 slowest test cases? Like how it can print out the full test names in shiny and colorful terminal awesomeness instead of meaningless dots? Me too.
+
+    require 'shoulda_benchmark'
+
+Patches Shoulda to track runtimes of all your tests, showing you the 10 slowest.
+
+    require 'shoulda_list_runner'
+
+Patches Test::Unit to print out test names colored either red or green (you can guess which is which). Blatantly inspired by RedGreen and adapted for Shoulda awesomeness.
+
+`require 'shoulda_addons'` if you want both, and why wouldn't you?
+
+Install from gemcutter via: `gem install shoulda-addons`
+
+Author: Mathias Meyer <meyer@paperplanes.de>
