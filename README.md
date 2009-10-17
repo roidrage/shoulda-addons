@@ -12,4 +12,6 @@ Patches Test::Unit to print out test names colored either red or green (you can 
 
 Install from gemcutter via: `gem install shoulda-addons`
 
+Is it safe for Ruby 1.9? Probably not, but I'm on it.
+
 Author: Mathias Meyer <meyer@paperplanes.de>
