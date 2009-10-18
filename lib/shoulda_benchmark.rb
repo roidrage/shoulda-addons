@@ -1,3 +1,44 @@
+module ShouldaAddons
+  module MiniTest
+    module Benchmark
+      def self.included(base)
+        base.class_eval do
+          alias :run_before_benchmark :run
+          
+          def run args = []
+            result = run_before_benchmark
+            puts Shoulda.runtimes.collect{|name, total| [name, total]}.
+              sort{|runtime1, runtime2| runtime2[1] <=> runtime1[1]}[0...10].
+              collect{|name, total| "#{"%0.2f" % total} s: #{name.to_s.gsub(/test: /, "")}"}.<<("").join("\n")
+            result
+          end
+        end
+      end
+    end
+  end
+end
+
+if defined?(MiniTest::Unit)
+  module ::MiniTest
+    class Unit
+      include ShouldaAddons::MiniTest::Benchmark
+    end
+  end
+else
+  module Test
+    module Unit
+      class TestResult
+        alias :to_old_s :to_s
+        def to_s
+          Shoulda.runtimes.collect{|name, total| [name, total]}.
+            sort{|runtime1, runtime2| runtime2[1] <=> runtime1[1]}[0...10].
+            collect{|name, total| "#{"%0.2f" % total} s: #{name.to_s.gsub(/test: /, "")}"}.<<("").<<(to_old_s).join("\n")
+        end
+      end
+    end
+  end
+end
+
 module Test
   module Unit
     class TestCase
@@ -16,17 +57,6 @@ module Test
           Shoulda.runtimes[name] = runtime
         end
         @ignoring_added_methods = false
-      end
-      
-    end
-    
-    class TestResult
-      alias :to_old_s :to_s
-      def to_s
-        puts Shoulda.runtimes.collect {|name, total| total}.inject(0) {|num, sum| num + sum}
-        Shoulda.runtimes.collect{|name, total| [name, total]}.
-          sort{|runtime1, runtime2| runtime2[1] <=> runtime1[1]}[0...10].
-          collect{|name, total| "#{"%0.2f" % total} s: #{name.to_s.gsub(/test: /, "")}"}.<<("").<<(to_old_s).join("\n")
       end
     end
   end

@@ -1,6 +1,3 @@
-require 'test/unit'
-require 'test/unit/ui/console/testrunner'
-
 module Color
   COLORS = { :clear => 0, :red => 31, :green => 32, :yellow => 33 }
   def self.method_missing(color_name, *args)
@@ -11,30 +8,51 @@ module Color
   end
 end
 
-module Test
-  module Unit
-    module UI
-      module Console
-        class TestRunner
-          def test_finished(name)
-            if is_fault?(name)
-              puts Color.red(name.gsub(/test: /, ""))
-            else
-              puts Color.green(name.to_s.gsub(/test: /, ""))
+if defined?(MiniTest::Unit)
+  module MiniTest
+    class Unit
+      class TestCase
+        alias_method :run_before_shoulda_runner, :run
+        
+        def run runner
+          result = run_before_shoulda_runner(runner)
+          if result == '.'
+            Color.green(name.gsub(/test: /, "")) + "\n"
+          else
+            Color.red(name.gsub(/test: /, "")) + "\n"
+          end
+        end
+      end
+    end
+  end
+else
+  require 'test/unit/ui/console/testrunner'
+
+  module Test
+    module Unit
+      module UI
+        module Console
+          class TestRunner
+            def test_finished(name)
+              if is_fault?(name)
+                puts Color.red(name.gsub(/test: /, ""))
+              else
+                puts Color.green(name.to_s.gsub(/test: /, ""))
+              end
             end
-          end
           
-          def is_fault?(name)
-            !_faults_by_name[name].nil?
-          end
+            def is_fault?(name)
+              !_faults_by_name[name].nil?
+            end
           
-          def _faults_by_name
-            @_faults_by_name ||= {}
-          end
+            def _faults_by_name
+              @_faults_by_name ||= {}
+            end
           
-          def add_fault(fault)
-            @faults << fault
-            _faults_by_name[fault.test_name] = fault
+            def add_fault(fault)
+              @faults << fault
+              _faults_by_name[fault.test_name] = fault
+            end
           end
         end
       end
