@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shoulda-addons}
-  s.version = "0.1.1"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mathias Meyer"]
-  s.date = %q{2009-10-17}
+  s.date = %q{2009-10-18}
   s.description = %q{Some awesome addons for Shoulda to benchmark tests, or to get nicer output than just a dot, because what the dot?}
   s.email = %q{meyer@paperplanes.de}
   s.extra_rdoc_files = [
