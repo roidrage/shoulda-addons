@@ -25,6 +25,7 @@ if defined?(MiniTest::Unit)
     end
   end
 else
+  require 'test/unit/testresult'
   module Test
     module Unit
       class TestResult
@@ -39,11 +40,12 @@ else
   end
 end
 
+require 'test/unit/testcase'
 module Test
   module Unit
     class TestCase
       def self.method_added(name)
-        return if @ignoring_added_methods 
+        return if @ignoring_added_methods
         
         @__instrumented_methods ||= {}
         return unless name.to_s.match(/^test:/) || @__instrumented_methods[name]
