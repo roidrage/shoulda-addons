@@ -15,3 +15,7 @@ Install from gemcutter via: `gem install shoulda-addons`
 Is it safe for Ruby 1.9? Yes! Support for the new MiniTest framework is built-in.
 
 Author: Mathias Meyer <meyer@paperplanes.de>
+
+#### Contributions
+
+* Test::Unit 2.0 compatibility (github.com/ffmike)
