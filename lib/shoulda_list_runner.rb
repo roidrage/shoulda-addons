@@ -8,11 +8,6 @@ module Color
   end
 end
 
-if defined?(Test::Unit::TestResultFailureSupport)
-  @green = Color.new("green")
-  @red = Color.new("red")
-end
-
 if defined?(MiniTest::Unit)
   module MiniTest
     class Unit
@@ -39,17 +34,17 @@ else
         module Console
           class TestRunner
             def test_finished(name)
-              if defined?(Color.green)
+              if defined?(Test::Unit::Color)
                 if is_fault?(name)
-                  puts Color.red(name.gsub(/test: /, ""))
+                  output(name.gsub(/test: /, ""), Test::Unit::Color.new("red"))
                 else
-                  puts Color.green(name.to_s.gsub(/test: /, ""))
+                  output(name.gsub(/test: /, ""), Test::Unit::Color.new("green"))
                 end
               else
                 if is_fault?(name)
-                  output(name.gsub(/test: /, ""), @red)
+                  output(Color.red(name.gsub(/test: /, "")))
                 else
-                  output(name.gsub(/test: /, ""), @green)
+                  output(Color.green(name.to_s.gsub(/test: /, "")))
                 end
               end
             end
