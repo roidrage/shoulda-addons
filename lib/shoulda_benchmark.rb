@@ -56,7 +56,7 @@ module Test
           runtime = Benchmark.realtime do
             send(" #{name}")
           end
-          Shoulda.runtimes[name] = runtime
+          Shoulda.runtimes[self.name] = runtime
         end
         @ignoring_added_methods = false
       end
