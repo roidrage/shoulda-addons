@@ -19,3 +19,4 @@ Author: Mathias Meyer <meyer@paperplanes.de>
 #### Contributions
 
 * Test::Unit 2.0 compatibility (github.com/ffmike)
+* Include the test class name in the benchmark output for Test::Unit (github.com/tobias)
