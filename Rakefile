@@ -13,3 +13,12 @@ begin
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
 end
+
+task :test do
+  system "ruby test/shoulda_benchmark_test_unit_1x_test.rb"
+  system "ruby test/shoulda_benchmark_test_unit_2x_test.rb"
+  system "ruby1.9 test/shoulda_benchmark_minitest_test.rb"
+  system "ruby test/shoulda_list_runner_test_unit_1x_test.rb"
+  system "ruby test/shoulda_list_runner_test_unit_2x_test.rb"
+  system "ruby1.9 test/shoulda_list_runner_minitest_test.rb"
+end
