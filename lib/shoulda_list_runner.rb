@@ -1,10 +1,10 @@
 module Color
-  COLORS = { :clear => 0, :red => 31, :green => 32, :yellow => 33 }
+  @@colors = { :clear => 0, :red => 31, :green => 32, :yellow => 33 }
   def self.method_missing(color_name, *args)
     color(color_name) + args.first + color(:clear) 
   end
   def self.color(color)
-    "\e[#{COLORS[color.to_sym]}m"
+    "\e[#{@@colors[color.to_sym]}m"
   end
 end
 
