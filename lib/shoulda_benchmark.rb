@@ -1,3 +1,5 @@
+require 'benchmark'
+
 module ShouldaAddons
   module MiniTest
     module Benchmark
