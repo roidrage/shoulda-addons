@@ -1,10 +1,12 @@
-module Color
-  @@colors = { :clear => 0, :red => 31, :green => 32, :yellow => 33 }
-  def self.method_missing(color_name, *args)
-    color(color_name) + args.first + color(:clear) 
-  end
-  def self.color(color)
-    "\e[#{@@colors[color.to_sym]}m"
+module ShouldaAddons
+  module Color
+    @@colors = { :clear => 0, :red => 31, :green => 32, :yellow => 33 }
+    def self.method_missing(color_name, *args)
+      color(color_name) + args.first + color(:clear) 
+    end
+    def self.color(color)
+      "\e[#{@@colors[color.to_sym]}m"
+    end
   end
 end
 
@@ -17,9 +19,9 @@ if defined?(MiniTest::Unit)
         def run runner
           result = run_before_shoulda_runner(runner)
           if result == '.'
-            Color.green(name.gsub(/test: /, "")) + "\n"
+            ShouldaAddons::Color.green(name.gsub(/test: /, "")) + "\n"
           else
-            Color.red(name.gsub(/test: /, "")) + "\n"
+            ShouldaAddons::Color.red(name.gsub(/test: /, "")) + "\n"
           end
         end
       end
@@ -42,9 +44,9 @@ else
                 end
               else
                 if is_fault?(name)
-                  output(Color.red(name.gsub(/test: /, "")))
+                  output(ShouldaAddons::Color.red(name.gsub(/test: /, "")))
                 else
-                  output(Color.green(name.to_s.gsub(/test: /, "")))
+                  output(ShouldaAddons::Color.green(name.to_s.gsub(/test: /, "")))
                 end
               end
             end
