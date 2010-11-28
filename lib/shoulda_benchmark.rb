@@ -49,6 +49,11 @@ module Test
       def self.method_added(name)
         return if @ignoring_added_methods
         
+        test_name = if respond_to?(:name)
+                      name
+                    elsif respond_to?(:__name__)
+                      __name__
+                    end
         @__instrumented_methods ||= {}
         return unless name.to_s.match(/^test:/) || @__instrumented_methods[name]
         @ignoring_added_methods = true
@@ -58,7 +63,7 @@ module Test
           runtime = Benchmark.realtime do
             send(" #{name}")
           end
-          Shoulda.runtimes[self.name] = runtime
+          Shoulda.runtimes[test_name] = runtime
         end
         @ignoring_added_methods = false
       end

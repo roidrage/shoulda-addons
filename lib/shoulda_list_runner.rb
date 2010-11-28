@@ -17,11 +17,16 @@ if defined?(MiniTest::Unit)
         alias_method :run_before_shoulda_runner, :run
         
         def run runner
+          test_name = if respond_to?(:name)
+                        name
+                      elsif respond_to?(:__name__)
+                        __name__
+                      end
           result = run_before_shoulda_runner(runner)
           if result == '.'
-            ShouldaAddons::Color.green(name.gsub(/test: /, "")) + "\n"
+            ShouldaAddons::Color.green(test_name.gsub(/test: /, "")) + "\n"
           else
-            ShouldaAddons::Color.red(name.gsub(/test: /, "")) + "\n"
+            ShouldaAddons::Color.red(test_name.gsub(/test: /, "")) + "\n"
           end
         end
       end
