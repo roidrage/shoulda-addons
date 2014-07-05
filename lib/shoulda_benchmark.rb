@@ -33,9 +33,15 @@ else
       class TestResult
         alias :to_old_s :to_s
         def to_s
-          Shoulda.runtimes.collect{|name, total| [name, total]}.
+          benchmarks = Shoulda.runtimes.collect{|name, total| [name, total]}.
             sort{|runtime1, runtime2| runtime2[1] <=> runtime1[1]}[0...10].
             collect{|name, total| "#{"%0.2f" % total} s: #{name.to_s.gsub(/test: /, "")}"}.<<("").<<(to_old_s).join("\n")
+          
+          if defined?(Rails) && Rails.version.to_i < 3
+            puts benchmarks
+          end
+                    
+          return benchmarks
         end
       end
     end
